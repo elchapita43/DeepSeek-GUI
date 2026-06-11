@@ -262,7 +262,7 @@ describe('KunRuntimeProvider', () => {
     const provider = new KunRuntimeProvider()
 
     await provider.sendUserMessage('thr_1', 'think harder', {
-      model: 'deepseek-v4-pro',
+      model: 'auto',
       reasoningEffort: 'max'
     })
 
@@ -271,7 +271,7 @@ describe('KunRuntimeProvider', () => {
       'POST',
       JSON.stringify({
         prompt: 'think harder',
-        model: 'deepseek-v4-pro',
+        model: 'auto',
         approvalPolicy: 'auto',
         sandboxMode: 'danger-full-access',
         reasoningEffort: 'max'

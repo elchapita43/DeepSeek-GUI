@@ -11,7 +11,7 @@ import { Brain, Check, ChevronDown, ChevronRight, Gauge } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { ModelProviderModelGroup } from '@shared/ds-gui-api'
 
-export type ComposerReasoningEffort = 'off' | 'high' | 'max'
+export type ComposerReasoningEffort = 'low' | 'medium' | 'high' | 'max'
 
 type Props = {
   compact: boolean
@@ -27,7 +27,8 @@ type Props = {
 }
 
 const REASONING_OPTIONS: Array<{ id: ComposerReasoningEffort; labelKey: string }> = [
-  { id: 'off', labelKey: 'composerReasoningOff' },
+  { id: 'low', labelKey: 'composerReasoningLow' },
+  { id: 'medium', labelKey: 'composerReasoningMedium' },
   { id: 'high', labelKey: 'composerReasoningHigh' },
   { id: 'max', labelKey: 'composerReasoningMax' }
 ]
@@ -92,10 +93,10 @@ export function FloatingComposerModelPicker({
     const ordered = new Set<string>()
     for (const id of composerPickList) {
       const normalized = id.trim()
-      if (normalized && normalized.toLowerCase() !== 'auto') ordered.add(normalized)
+      if (normalized) ordered.add(normalized)
     }
     const current = composerModel.trim()
-    if (current && current.toLowerCase() !== 'auto') ordered.add(current)
+    if (current) ordered.add(current)
     return [...ordered]
   }, [composerModel, composerPickList])
   const providerMenuGroups = useMemo<ComposerModelMenuGroup[]>(() => {
@@ -116,7 +117,7 @@ export function FloatingComposerModelPicker({
         }
       })
       .filter((group) => group.modelIds.length > 0)
-    const ungrouped = modelOptions.filter((id) => !seen.has(id))
+    const ungrouped = modelOptions.filter((id) => id !== 'auto' && !seen.has(id))
     if (ungrouped.length > 0) {
       groups.push({
         providerId: UNGROUPED_MODEL_PROVIDER_ID,
@@ -308,6 +309,14 @@ export function FloatingComposerModelPicker({
           {t('composerModel')}
         </MenuSectionTitle>
         <div className="pr-0.5">
+          <PickerRow
+            selected={!composerModel.trim() || composerModel.trim() === 'auto'}
+            title={t('autoLabel')}
+            onClick={() => {
+              onComposerModelChange('auto')
+              setMenuOpen(false)
+            }}
+          />
           {providerMenuGroups.map((group) => {
             const selectedModel = group.modelIds.includes(currentModel) ? currentModel : ''
             return (
@@ -467,11 +476,11 @@ export function FloatingComposerModelPicker({
 
 export function normalizeComposerReasoningEffort(value: string | undefined): ComposerReasoningEffort {
   switch (value?.trim().toLowerCase()) {
-    case 'off':
     case 'low':
+    case 'medium':
     case 'high':
     case 'max':
-      return value.trim().toLowerCase() === 'low' ? 'off' : value.trim().toLowerCase() as ComposerReasoningEffort
+      return value.trim().toLowerCase() as ComposerReasoningEffort
     default:
       return 'max'
   }
@@ -480,7 +489,7 @@ export function normalizeComposerReasoningEffort(value: string | undefined): Com
 export function composerReasoningEffortRequestValue(
   value: ComposerReasoningEffort
 ): string | undefined {
-  if (value === 'off') return 'off'
+  if (value === 'low') return 'off'
   return value
 }
 
@@ -609,6 +618,8 @@ function clamp(value: number, min: number, max: number): number {
 
 function friendlyModelName(model: string): string | null {
   switch (model.trim().toLowerCase()) {
+    case 'auto':
+      return 'Auto'
     case 'deepseek-v4-pro':
       return 'V4 Pro'
     case 'deepseek-v4-flash':
@@ -620,11 +631,11 @@ function friendlyModelName(model: string): string | null {
 
 function concreteModelId(model: string): string {
   const trimmed = model.trim()
-  return trimmed && trimmed.toLowerCase() !== 'auto' ? trimmed : 'deepseek-v4-pro'
+  return trimmed && trimmed.toLowerCase() !== 'auto' ? trimmed : 'auto'
 }
 
 function fullModelLabel(model: string): string {
-  return model.trim() || 'deepseek-v4-pro'
+  return model.trim() || 'auto'
 }
 
 function estimatedModelSubmenuHeight(modelCount: number): number {

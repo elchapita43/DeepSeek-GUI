@@ -22,7 +22,7 @@ function channel(enabled: boolean, provider: ClawImChannelV1['provider'] = 'feis
     provider,
     label: enabled ? 'Enabled' : 'Disabled',
     enabled,
-    model: 'deepseek-v4-pro',
+    model: 'auto',
     threadId: '',
     workspaceRoot: '',
     agentProfile: {
@@ -91,7 +91,7 @@ describe('ConnectPhoneView', () => {
       replyRules: ''
     })
     expect(createConnectPhoneChannelOptions()).toEqual({
-      model: 'deepseek-v4-pro',
+      model: 'auto',
       enabled: true,
       im: {
         enabled: true,
@@ -99,7 +99,7 @@ describe('ConnectPhoneView', () => {
       }
     })
     expect(createConnectPhoneChannelOptions('weixin')).toEqual({
-      model: 'deepseek-v4-pro',
+      model: 'auto',
       enabled: true,
       im: {
         enabled: true,

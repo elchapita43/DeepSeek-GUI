@@ -178,7 +178,7 @@ describe('app-ipc-schemas', () => {
           enabled: true,
           prompt: 'Review the repo',
           workspaceRoot: '/tmp/schedule',
-          model: 'deepseek-v4-pro',
+          model: 'auto',
           reasoningEffort: 'high',
           mode: 'agent',
           schedule: {

@@ -78,7 +78,7 @@ function buildSettings(): AppSettingsV1 {
       provider: 'feishu',
       label: 'Team helper',
       enabled: true,
-      model: 'deepseek-v4-pro',
+      model: 'auto',
       threadId: 'thr_1',
       workspaceRoot: '',
       agentProfile: {

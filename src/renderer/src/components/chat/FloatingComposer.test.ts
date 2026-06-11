@@ -139,8 +139,8 @@ describe('FloatingComposer file references', () => {
 })
 
 describe('FloatingComposer model controls', () => {
-  it('maps the off reasoning chip to disabled thinking for faster turns', () => {
-    expect(composerReasoningEffortRequestValue('off')).toBe('off')
+  it('maps the low reasoning chip to disabled thinking for faster turns', () => {
+    expect(composerReasoningEffortRequestValue('low')).toBe('off')
     expect(composerReasoningEffortRequestValue('max')).toBe('max')
   })
 
@@ -198,8 +198,8 @@ describe('FloatingComposer model controls', () => {
       createElement(FloatingComposerModelPicker, {
         compact: false,
         mode: 'select',
-        composerModel: 'deepseek-v4-pro',
-        composerPickList: ['deepseek-v4-pro'],
+        composerModel: 'auto',
+        composerPickList: ['auto', 'deepseek-v4-pro'],
         composerReasoningEffort: 'high',
         canChangeModel: true,
         onComposerModelChange: () => undefined,
@@ -207,7 +207,7 @@ describe('FloatingComposer model controls', () => {
       })
     )
 
-    expect(html).toContain('V4 Pro')
+    expect(html).toContain('Auto')
     expect(html).toContain('High')
   })
 })
@@ -458,7 +458,7 @@ describe('FloatingComposer capability controls', () => {
         provider: 'weixin',
         label: 'weixin agent',
         enabled: true,
-        model: 'deepseek-v4-pro',
+        model: 'auto',
         threadId: 'thr_weixin',
         workspaceRoot: '',
         agentProfile: {
@@ -490,8 +490,8 @@ describe('FloatingComposer capability controls', () => {
         busy: false,
         runtimeReady: true,
         hasActiveThread: true,
-        composerModel: 'deepseek-v4-pro',
-        composerPickList: ['deepseek-v4-pro'],
+        composerModel: 'auto',
+        composerPickList: ['auto'],
         onComposerModelChange: () => undefined,
         queuedMessages: [],
         onRemoveQueuedMessage: () => undefined,
@@ -596,7 +596,7 @@ describe('FloatingComposer capability controls', () => {
         compact: false,
         mode: 'select',
         composerModel: 'deepseek-v4-pro',
-        composerPickList: ['deepseek-v4-flash', 'deepseek-v4-pro'],
+        composerPickList: ['auto', 'deepseek-v4-flash', 'deepseek-v4-pro'],
         canChangeModel: true,
         composerReasoningEffort: 'max',
         onComposerReasoningEffortChange: () => undefined,
@@ -605,9 +605,9 @@ describe('FloatingComposer capability controls', () => {
     )
 
     expect(html).toContain('V4 Pro')
-    expect(html).toContain('Max')
+    expect(html).toContain('Ultra')
     expect(html).toContain('Model and reasoning settings')
-    expect(html).not.toContain('auto')
+    expect(html).not.toContain('>Auto<')
     expect(html).not.toContain('<option value=""></option>')
     expect(html).not.toContain('Default (thread)')
   })
@@ -618,7 +618,7 @@ describe('FloatingComposer capability controls', () => {
         compact: true,
         mode: 'combobox',
         composerModel: 'deepseek-v4-flash',
-        composerPickList: ['deepseek-v4-flash', 'deepseek-v4-pro'],
+        composerPickList: ['auto', 'deepseek-v4-flash', 'deepseek-v4-pro'],
         canChangeModel: true,
         composerReasoningEffort: 'high',
         onComposerReasoningEffortChange: () => undefined,

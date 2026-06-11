@@ -143,7 +143,7 @@ function modelContextProfileSummary(input: {
       sourceLabelKey: 'kunModelContextSourceBuiltIn'
     }
   }
-  const model = input.model?.trim() || 'deepseek-v4-pro'
+  const model = input.model?.trim() || 'auto'
   return {
     modelLabel: model,
     contextWindowLabel: 'models.profiles',

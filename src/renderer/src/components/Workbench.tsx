@@ -647,6 +647,7 @@ export function Workbench(): ReactElement {
       '',
       `- \`/help\`: ${t('clawHelpCommandHelp')}`,
       `- \`/new\`: ${t('clawHelpCommandNew')}`,
+      `- \`/model auto\`: ${t('clawHelpCommandModelAuto')}`,
       `- \`/model pro\`: ${t('clawHelpCommandModelPro')}`,
       `- \`/model flash\`: ${t('clawHelpCommandModelFlash')}`,
       `- \`/model\`: ${t('clawHelpCommandModelShow')}`

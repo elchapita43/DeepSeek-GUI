@@ -99,16 +99,17 @@ export function forgetCodeWorkspaceRoot(
 
 export function mergeComposerPickList(upstreamOk: boolean, upstreamIds: string[]): string[] {
   const ordered = new Set<string>()
+  ordered.add('auto')
   for (const id of DEFAULT_COMPOSER_MODEL_IDS) {
-    ordered.add(id)
+    if (id !== 'auto') ordered.add(id)
   }
   if (upstreamOk) {
     for (const id of upstreamIds) {
-      const trimmed = id.trim()
-      if (trimmed && trimmed.toLowerCase() !== 'auto') ordered.add(trimmed)
+      if (id.trim()) ordered.add(id.trim())
     }
   }
-  return [...ordered].sort((a, b) => a.localeCompare(b))
+  const tail = [...ordered].filter((id) => id !== 'auto').sort((a, b) => a.localeCompare(b))
+  return ['auto', ...tail]
 }
 
 export function newClawChannel(
@@ -188,6 +189,7 @@ export function isClawThread(
 }
 
 const FRIENDLY_MODEL_NAMES: Record<string, string> = {
+  'auto': 'Auto',
   'deepseek-v4-pro': 'V4 Pro',
   'deepseek-v4-flash': 'V4 Flash'
 }
